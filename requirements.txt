@@ -1,0 +1,4 @@
+falcon>=0.1.9
+gevent>=1.0.1
+daemonize>=2.3.1
+lockfile>=0.10.2
