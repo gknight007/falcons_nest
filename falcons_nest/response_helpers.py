@@ -1,9 +1,4 @@
 #!/usr/bin/python
-'''
-Created on Aug 26, 2014
-
-@author: gknight
-'''
 
 from json import dumps
 from falcon.status_codes import HTTP_200

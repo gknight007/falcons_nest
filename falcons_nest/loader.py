@@ -1,9 +1,4 @@
 #!/usr/bin/pyton
-'''
-Created on Aug 25, 2014
-
-@author: gknight
-'''
 
 from os import path, listdir
 from traceback import format_exc
