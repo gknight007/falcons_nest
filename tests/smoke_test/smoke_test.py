@@ -33,6 +33,7 @@ testUrl = 'http://localhost:%s/reflector/sub_path' % testPort
 def setup_func():
   dirPath = os.path.dirname(__file__)
   cfgPath = os.path.join(dirPath, 'smoke_test.cfg')
+  sys.stdout.write("STARTING DAEMON FOR SMOKE TEST\n")
   cmd = 'falcons_nest --config %s' % cfgPath
 
   startDaemonExitStatus = subprocess.call( shlex.split(cmd) )
