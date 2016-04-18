@@ -29,6 +29,21 @@ $ cd /tmp/falcons_nest
 $ falcons_nest -c examples/falcons_nest.cfg --loader_path ./examples
 ```
 
+Running from the command line ...
+```
+$falcons_nest \
+  --host 127.0.0.1 \
+  --port 8080 \
+  --pidfile /tmp/falcons_nests.pid \
+  --access_log /tmp/falcons_nests.access.log \
+  --error_log /tmp/falcons_nests.error.log \
+  --max_logs 3 \
+  --max_log_size 500 \
+  --loader directory \
+  --loader_path /tmp/falcons_nests/examples \
+  --prefix api 
+```
+
 
 ## Configuration
 There are 2 "things" to be configured for your applications

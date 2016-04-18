@@ -73,8 +73,10 @@ Vagrant.configure(2) do |config|
   config.vm.provision :shell, inline: 'yum install -y puppet python-pip python-nose'
   config.vm.provision :shell, inline: 'cd /tmp; git clone https://github.com/gknight007/falcons_nest.git'
   config.vm.provision :shell, inline: '/usr/bin/pip install -r /tmp/falcons_nest/requirements.txt'
-  config.vm.provision :shell, inline: 'python /tmp/falcons_nest/setup.py install'
-  config.vm.provision :shell, inline: 'nose /tmp/falcons_nest/tests/smoke_test/smoke_test.py'
+  config.vm.provision :shell, inline: '/usr/bin/pip install -r /tmp/falcons_nest/tests/requirements.txt'
+  config.vm.provision :shell, inline: 'ls -l /tmp/falcons_nest/setup.py'
+  config.vm.provision :shell, inline: 'cd /tmp/falcons_nest; python setup.py install; cd -'
+  config.vm.provision :shell, inline: 'nosetests /tmp/falcons_nest/tests/smoke_test/smoke_test.py'
 end
 
 
