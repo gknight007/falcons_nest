@@ -7,7 +7,7 @@ import sys
 import shlex
 import subprocess
 import os
-from singal import SIGTERM
+from signal import SIGTERM
 
 testPlan = '''
 1. Start server
