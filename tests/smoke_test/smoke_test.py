@@ -7,7 +7,9 @@ import sys
 import shlex
 import subprocess
 import os
+import json
 from signal import SIGTERM
+from nose.tools import with_setup
 
 testPlan = '''
 1. Start server
@@ -29,9 +31,9 @@ testPort = 8080
 testUrl = 'http://localhost:%s/reflector/sub_path' % testPort
 
 def setup_func():
-  dirPath = os.path.dirname(__FILENAME__)
+  dirPath = os.path.dirname(__file__)
   cfgPath = os.path.join(dirPath, 'smoke_test.cfg')
-  cmd = 'falcons_nest -c %s' % cfgPath
+  cmd = 'falcons_nest --config %s' % cfgPath
 
   startDaemonExitStatus = subprocess.call( shlex.split(cmd) )
 
@@ -56,7 +58,7 @@ def teardown_func():
 
 
 
-@with_setup(setup_func, teardown_fun)
+@with_setup(setup_func, teardown_func)
 def smoke_test():
   testSet = {
     'get': False,
