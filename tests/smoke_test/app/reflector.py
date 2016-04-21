@@ -7,41 +7,41 @@ import random, string, sys
 
 
 class APP(WsgiHandler):
-  def reflectAll(self, responseData, includeStream=False):
-    responseData['params'] = self.params
+  def reflectAll(self, req, responseData, includeStream=False):
+    responseData['params'] = req.params
 
     if includeStream:
-      responseData['data'] = self.stream.read()
+      responseData['data'] = req.stream.read()
 
     return responseData
 
   def GET(self, req):
     responseData = {}
     responseData['method'] = sys._getframe().f_code.co_name
-    return JsonResponse( self.reflectAll(responseData) )
+    return JsonResponse( self.reflectAll(req, responseData) )
 
   def POST(self, req):
     responseData = {}
     responseData['method'] = sys._getframe().f_code.co_name
-    return JsonResponse( self.reflectAll(responseData, includeStream=True) )
+    return JsonResponse( self.reflectAll(req, responseData, includeStream=True) )
 
   def PUT(self, req):
     responseData = {}
     responseData['method'] = sys._getframe().f_code.co_name
-    return JsonResponse( self.reflectAll(responseData, includeStream=True) )
+    return JsonResponse( self.reflectAll(req, responseData, includeStream=True) )
 
   def DELETE(self, req):
     responseData = {}
     responseData['method'] = sys._getframe().f_code.co_name
-    return JsonResponse( self.reflectAll(responseData) )
+    return JsonResponse( self.reflectAll(req, responseData) )
 
   def HEAD(self, req):
     responseData = {}
     responseData['method'] = sys._getframe().f_code.co_name
-    return JsonResponse( self.reflectAll(responseData) )
+    return JsonResponse( self.reflectAll(req, responseData) )
 
   def OPTIONS(self, req):
     responseData = {}
     responseData['method'] = sys._getframe().f_code.co_name
-    return JsonResponse( self.reflectAll(responseData) )
+    return JsonResponse( self.reflectAll(req, responseData) )
 

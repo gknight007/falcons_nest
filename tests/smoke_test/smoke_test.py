@@ -28,7 +28,7 @@ headers = {'x-header1': '1 header', 'x-header2': '2 header'}
 postData = {'post-data': '12345'}
 
 testPort = 8080
-testUrl = 'http://localhost:%s/reflector/sub_path' % testPort
+testUrl = 'http://localhost:%s/reflector' % testPort
 
 def setup_func():
   dirPath = os.path.dirname(__file__)
