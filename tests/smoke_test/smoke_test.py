@@ -10,6 +10,7 @@ import os
 import json
 from signal import SIGTERM
 from nose.tools import with_setup
+from time import sleep
 
 testPlan = '''
 1. Start server
@@ -24,7 +25,7 @@ testPlan = '''
 
 
 body='TEST Body'
-headers = {'x-header1': '1 header', 'x-header2': '2 header'}
+headers = {'X-HEADER1': '1 header', 'X-HEADER2': '2 header'}
 postData = {'post-data': '12345'}
 
 testPort = 8080
@@ -39,6 +40,8 @@ def setup_func():
   startDaemonExitStatus = subprocess.call( shlex.split(cmd) )
 
   assert startDaemonExitStatus == 0, "Failed to start API service for smoke test. We have a big problem!"
+  sleep(2)
+
   
 
 def teardown_func():
@@ -86,21 +89,24 @@ def check_base_requests(httpMethod, sendBody):
   }
 
   if sendBody:
-    kwargs.update( {'data': jsonPostData} )
+    r = getattr(requests, httpMethod)(testUrl, headers=headers, data=jsonPostData)
+  else:
+    r = getattr(requests, httpMethod)(testUrl, headers=headers)
 
-  r = getattr(requests, httpMethod)(testUrl, **kwargs)
 
   reqDump = dumpRequest(kwargs)
 
   assert r.status_code == 200, "Failed to get HTTP 200 for %s" % reqDump
   jsonResp = r.json()
-  assert jsonResp['method'] == httpMethod, "Wrong HTTP method reflected. Expecting: '%s', Actual: '%s'" % (httpMethod, jsonResp['method'])
+  assert jsonResp['method'] == httpMethod.upper(), "Wrong HTTP method reflected. Expecting: '%s', Actual: '%s'" % (httpMethod, jsonResp['method'])
+
+
   #FIXME: add test to check params and body
   if sendBody: pass 
 
   for k,v in headers.iteritems():
-    assert r.headers.has_key(k), "Missing expected header %s for %s" % (k, reqDump)
-    assert r.headers[k] == v, "Header value error header %s for %s" % (k, reqDump)
+    assert jsonResp['headers'].has_key(k), "Missing expected header %s for %s" % (k, reqDump)
+    assert jsonResp['headers'][k] == v, "Header value error header %s for %s" % (k, reqDump)
 
 
 

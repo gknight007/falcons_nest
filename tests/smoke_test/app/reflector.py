@@ -9,7 +9,7 @@ import random, string, sys
 class APP(WsgiHandler):
   def reflectAll(self, req, responseData, includeStream=False):
     responseData['params'] = req.params
-
+    responseData['headers'] = req.headers
     if includeStream:
       responseData['data'] = req.stream.read()
 
