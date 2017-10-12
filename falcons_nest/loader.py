@@ -133,8 +133,13 @@ class DirPathLoader(LoaderBase):
                 #so we ensure we get the expected objects from the nest directory
                 #or else we might get cached references to existing imports or 
                 #a builtin object
+                rPythonModule = __import__(noPyModuleName)
+                if not hasattr(rPythonModule , self.importClass):
+                    print("Skipping: %s because it has no API class" % noPyModuleName)
+                    continue
+
                 self.handlerInfo[noPyModuleName] = {}
-                self.handlerInfo[noPyModuleName]['module'] = __import__(noPyModuleName)
+                self.handlerInfo[noPyModuleName]['module'] = rPythonModule
                 self.handlerInfo[noPyModuleName]['class'] = getattr(self.handlerInfo[noPyModuleName]['module'], self.importClass)
                 print "Mapping URI %s to handler %s" % (mappedPathName, path.join(self.dirPath, aFile) )
             except:

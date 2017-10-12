@@ -78,11 +78,14 @@ class API(Falcon_API):
     __slots__ = ('_after', '_before', '_error_handlers', '_media_type',
                  '_routes', '_default_route', '_sinks', '_logger')
     
-    def __init__(self, media_type=DEFAULT_MEDIA_TYPE, before=None, after=None, logger=None):
-        Falcon_API.__init__(self, media_type, before=before, after=after)
+    #def __init__(self, media_type=DEFAULT_MEDIA_TYPE, before=None, after=None, logger=None):
+        #Falcon_API.__init__(self, media_type, before=before, after=after)
+    def __init__(*args, **kwargs):
+        if 'logger' in kwargs: #FIXME: add check to see if subclass() of logger.*some_logger*
+            args[0]._logger = kwargs['logger']
+            del kwargs['logger']
+        Falcon_API.__init__(*args, **kwargs)
         
-        if logger: #FIXME: add check to see if subclass() of logger.*some_logger*
-            self._logger = logger
 
             #Alias falcon.API logger functions to use self._logger
     def critical(self, msg): self._logger.critical(msg)
